@@ -7,14 +7,16 @@ import { EmployeeModal } from './EmployeeModal'
 
 export const AbsenceTable = () => {
   const { absences, conflicts, loading, error } = useAbsences()
-  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(null)
+  const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
+    null
+  )
 
   if (loading) return <div>Loading absences...</div>
   if (error) return <div>{error}</div>
 
   const handleNameClick = (employee: Employee) => {
-  setSelectedEmployee(employee)
-}
+    setSelectedEmployee(employee)
+  }
 
   const closeModal = () => {
     setSelectedEmployee(null)
@@ -52,7 +54,9 @@ export const AbsenceTable = () => {
 
       {selectedEmployee && (
         <EmployeeModal isOpen={true} onClose={closeModal}>
-          <p>Details for <strong>{selectedEmployee?.firstName}</strong></p>
+          <p>
+            Details for <strong>{selectedEmployee?.firstName}</strong>
+          </p>
         </EmployeeModal>
       )}
     </>

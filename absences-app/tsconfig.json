@@ -8,5 +8,5 @@
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "include": ["src", "vite.config.ts", "**/*.test.ts", "**/*.test.tsx"],
+  "include": ["src", "vite.config.ts", "**/*.test.ts", "**/*.test.tsx"]
 }

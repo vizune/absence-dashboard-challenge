@@ -47,7 +47,7 @@ export const EmployeeModal = ({ isOpen, onClose, children }: ModalProps) => {
           className="absolute top-2 right-2 text-gray-500 dark:text-gray-300 hover:text-black dark:hover:text-white"
           aria-label="Close modal"
         >
-          ✕
+          <span className="sr-only">Close</span>✕
         </button>
         {children}
       </div>

@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent } from '@testing-library/react'
 import { vi } from 'vitest'
 import { AbsenceTable } from './AbsenceTable'
 
@@ -28,7 +28,6 @@ vi.mock('../hooks/useAbsences', () => ({
   }),
 }))
 
-
 describe('AbsenceTable', () => {
   beforeEach(() => {
     render(<AbsenceTable />)
@@ -42,5 +41,12 @@ describe('AbsenceTable', () => {
   it('renders Misty Williams', () => {
     expect(screen.getByText(/misty/i)).toBeInTheDocument()
     expect(screen.getByText(/williams/i)).toBeInTheDocument()
+  })
+
+  it('opens modal when name is clicked', () => {
+    fireEvent.click(screen.getByText(/ash/i))
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByText(/ash ketchum/i)).toBeInTheDocument()
   })
 })
