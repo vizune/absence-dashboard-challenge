@@ -9,6 +9,6 @@ export type Absence = {
   startDate: string
   endDate: string
   employee: Employee
-  type: string
+  absenceType: string
   approved: boolean
 }
