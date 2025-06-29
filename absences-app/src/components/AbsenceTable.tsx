@@ -6,14 +6,14 @@ import { AbsenceRow } from './AbsenceRow'
 import { EmployeeModal } from './EmployeeModal'
 import { EmployeeAbsenceDetails } from './EmployeeAbsenceDetails'
 
+type SortableField = 'name' | 'startDate' | 'endDate' | 'absenceType'
+
 export const AbsenceTable = () => {
   const { absences, conflicts, loading, error } = useAbsences()
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
     null
   )
-  const [sortField, setSortField] = useState<
-    'name' | 'startDate' | 'endDate' | 'absenceType'
-  >('startDate')
+  const [sortField, setSortField] = useState<SortableField>('startDate')
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
   if (loading) return <div>Loading absences...</div>
@@ -27,7 +27,7 @@ export const AbsenceTable = () => {
     setSelectedEmployee(null)
   }
 
-  const headers = [
+  const headers: { label: string; field?: SortableField }[] = [
     { label: 'Employee', field: 'name' },
     { label: 'Start Date', field: 'startDate' },
     { label: 'End Date', field: 'endDate' },
@@ -69,14 +69,14 @@ export const AbsenceTable = () => {
       <div className="overflow-x-auto rounded-lg shadow dark:shadow-lg">
         <table className="min-w-full text-left border-collapse bg-white dark:bg-gray-900 text-sm text-gray-700 dark:text-gray-200">
           <thead>
-            <tr className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
+            <tr className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 text-center">
               {headers.map((header) => (
                 <th
                   key={header.label}
                   className={`cursor-pointer px-4 py-2 ${header.field ? 'hover:underline' : ''}`}
                   onClick={
-                    header.field
-                      ? () => handleSort(header.field as any)
+                    typeof header.field === 'string'
+                      ? () => handleSort(header.field)
                       : undefined
                   }
                 >
