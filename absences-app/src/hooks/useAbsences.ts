@@ -28,13 +28,14 @@ export function useAbsences() {
               const conflictData = await conflictRes.json()
               conflictResults[absence.id] = conflictData.hasConflict ?? false
             } catch (err) {
-              console.error('Failed to fetch conflict for ID', absence.id)
+              console.error('Failed to fetch conflict for ID', absence.id, err)
             }
           })
         )
 
         setConflicts(conflictResults)
       } catch (err) {
+        console.error('Failed to load absences:', err)
         setError('Failed to load absences')
       } finally {
         setLoading(false)
