@@ -58,6 +58,8 @@ The app will be available at http://localhost:5173
 
 See `src/constants.ts` for how these endpoints are used in the application.
 
+---
+
 ## Testing
 
 This project uses [Vitest](https://vitest.dev/) as the test runner, along with [Testing Library](https://testing-library.com/) for DOM-based React testing.
@@ -88,3 +90,22 @@ npm run test:watch
 # Open interactive UI (optional)
 npm run test:ui
 ```
+
+---
+
+## Future Improvements
+
+- **Responsive Layout for Mobile**  
+  Instead of using a traditional `<table>`, I would refactor the table into a grid or card-based layout for small screens. This would allow each absence entry to display as a vertically stacked block, improving readability and touch interaction on mobile devices.
+
+- **Light/Dark Mode Toggle**  
+  Add a theme switcher to allow users to toggle between light and dark modes. While the current implementation respects system preferences, giving users control improves accessibility and user comfort — especially in different lighting environments.
+
+- **Sticky Table Headers**  
+  Keep column headers visible when scrolling through long lists of absences for better context.
+
+- **Search & Filtering**  
+  Allow filtering absences by employee name, date range, type, or approval status for faster data discovery.
+
+- **Pagination **  
+  Improve performance and usability for large datasets by adding pagination or lazy loading.
