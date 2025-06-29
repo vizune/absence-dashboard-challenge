@@ -1,16 +1,20 @@
 import { useState } from 'react'
 import { useAbsences } from '../hooks/useAbsences'
 import type { Employee } from '../types'
-import { formatDate } from '../utils/formatDate'
 
 import { AbsenceRow } from './AbsenceRow'
 import { EmployeeModal } from './EmployeeModal'
+import { EmployeeAbsenceDetails } from './EmployeeAbsenceDetails'
 
 export const AbsenceTable = () => {
   const { absences, conflicts, loading, error } = useAbsences()
   const [selectedEmployee, setSelectedEmployee] = useState<Employee | null>(
     null
   )
+  const [sortField, setSortField] = useState<
+    'name' | 'startDate' | 'endDate' | 'absenceType'
+  >('startDate')
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
 
   if (loading) return <div>Loading absences...</div>
   if (error) return <div>{error}</div>
@@ -24,33 +28,70 @@ export const AbsenceTable = () => {
   }
 
   const headers = [
-    'Employee',
-    'Start Date',
-    'End Date',
-    'Type',
-    'Status',
-    'Conflict',
+    { label: 'Employee', field: 'name' },
+    { label: 'Start Date', field: 'startDate' },
+    { label: 'End Date', field: 'endDate' },
+    { label: 'Type', field: 'absenceType' },
+    { label: 'Status' },
+    { label: 'Conflict' },
   ]
 
-  const employeeAbsences = selectedEmployee
-    ? absences.filter((a) => a.employee.id === selectedEmployee.id)
-    : []
+  const sortedAbsences = [...absences].sort((a, b) => {
+    let aValue, bValue
+
+    if (sortField === 'name') {
+      aValue = `${a.employee.firstName} ${a.employee.lastName}`.toLowerCase()
+      bValue = `${b.employee.firstName} ${b.employee.lastName}`.toLowerCase()
+    } else if (sortField === 'absenceType') {
+      aValue = a.absenceType
+      bValue = b.absenceType
+    } else {
+      aValue = new Date(a[sortField]).getTime()
+      bValue = new Date(b[sortField]).getTime()
+    }
+
+    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1
+    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1
+    return 0
+  })
+
+  const handleSort = (field: typeof sortField) => {
+    if (field === sortField) {
+      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+    } else {
+      setSortField(field)
+      setSortDirection('asc')
+    }
+  }
 
   return (
     <>
       <div className="overflow-x-auto rounded-lg shadow dark:shadow-lg">
         <table className="min-w-full text-left border-collapse bg-white dark:bg-gray-900 text-sm text-gray-700 dark:text-gray-200">
-          <thead className="bg-gray-100 dark:bg-gray-800">
-            <tr>
+          <thead>
+            <tr className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100">
               {headers.map((header) => (
-                <th key={header} className="px-4 py-3 font-medium">
-                  {header}
+                <th
+                  key={header.label}
+                  className={`cursor-pointer px-4 py-2 ${header.field ? 'hover:underline' : ''}`}
+                  onClick={
+                    header.field
+                      ? () => handleSort(header.field as any)
+                      : undefined
+                  }
+                >
+                  {header.label}
+                  {sortField === header.field && (
+                    <span className="ml-1">
+                      {sortDirection === 'asc' ? '↑' : '↓'}
+                    </span>
+                  )}
                 </th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {absences.map((absence) => (
+            {sortedAbsences.map((absence) => (
               <AbsenceRow
                 key={absence.id}
                 id={absence.id}
@@ -69,36 +110,10 @@ export const AbsenceTable = () => {
 
       {selectedEmployee && (
         <EmployeeModal isOpen={true} onClose={closeModal}>
-          <div className="p-4 text-gray-800 dark:text-gray-100">
-            <h2 className="text-lg font-bold mb-2 text-gray-900 dark:text-gray-100">
-              Absences for {selectedEmployee.firstName}{' '}
-              {selectedEmployee.lastName}
-            </h2>
-            <ul className="space-y-2 text-gray-800 dark:text-gray-200">
-              {employeeAbsences.map((absence) => (
-                <li
-                  key={absence.id}
-                  className="border-b border-gray-200 dark:border-gray-700 pb-3"
-                >
-                  <div>
-                    <span className="font-semibold">Type:</span> {absence.absenceType}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Start:</span>{' '}
-                    {formatDate(absence.startDate)}
-                  </div>
-                  <div>
-                    <span className="font-semibold">End:</span>{' '}
-                    {formatDate(absence.endDate)}
-                  </div>
-                  <div>
-                    <span className="font-semibold">Status:</span>{' '}
-                    {absence.approved ? 'Approved' : 'Pending'}
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <EmployeeAbsenceDetails
+            employee={selectedEmployee}
+            absences={absences}
+          />
         </EmployeeModal>
       )}
     </>

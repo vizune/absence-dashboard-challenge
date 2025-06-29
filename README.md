@@ -42,9 +42,6 @@ npm install
 
 # 2. Start the dev server
 npm run dev
-
-# 3. Run tests
-npm run test
 ```
 
 The app will be available at http://localhost:5173
@@ -61,25 +58,25 @@ The app will be available at http://localhost:5173
 
 See `src/constants.ts` for how these endpoints are used in the application.
 
-## 🧪 Testing
+## Testing
 
 This project uses [Vitest](https://vitest.dev/) as the test runner, along with [Testing Library](https://testing-library.com/) for DOM-based React testing.
 
-### ✨ Key testing features
+### Key testing features
 
 - `@testing-library/react` for rendering components
 - `@testing-library/user-event` for simulating real user interactions
 - `@testing-library/jest-dom` for useful assertions (e.g. `.toBeInTheDocument()`)
 - `jsdom` environment for full DOM support in tests
 
-### 📁 Setup
+### Setup
 
 All test setup is handled in:
 
 - `vite.config.ts` — configures Vitest with `globals`, `jsdom`, and `setupFiles`
 - `src/test/setup.ts` — imports `@testing-library/jest-dom` globally
 
-### 🚀 Running tests
+### Running tests
 
 ```bash
 # Run all tests once
