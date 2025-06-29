@@ -107,5 +107,5 @@ npm run test:ui
 - **Search & Filtering**  
   Allow filtering absences by employee name, date range, type, or approval status for faster data discovery.
 
-- **Pagination **  
+- **Pagination**  
   Improve performance and usability for large datasets by adding pagination or lazy loading.
