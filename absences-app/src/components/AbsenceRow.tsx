@@ -2,6 +2,8 @@ import React from 'react'
 import type { Employee } from '../types'
 import { formatDate } from '../utils/formatDate'
 
+import { ConflictPill } from './ConflictPill'
+
 type AbsenceRowProps = {
   id: number
   employee: Employee
@@ -23,24 +25,24 @@ export const AbsenceRow: React.FC<AbsenceRowProps> = ({
   onNameClick,
 }) => {
   return (
-    <tr className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+    <tr className="border-b border-gray-200 dark:border-gray-700 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 even:bg-gray-50 odd:bg-white dark:even:bg-gray-800 dark:odd:bg-gray-900">
       <td
         className="p-4 text-blue-600 dark:text-blue-400 cursor-pointer underline hover:text-blue-800 dark:hover:text-blue-300"
         onClick={() => onNameClick?.(employee)}
       >
         {employee.firstName} {employee.lastName}
       </td>
-      <td className="p-4 text-gray-700 dark:text-gray-200">
+      <td className="p-4 text-gray-700 dark:text-gray-200 text-center">
         {formatDate(startDate)}
       </td>
-      <td className="p-4 text-gray-700 dark:text-gray-200">
+      <td className="p-4 text-gray-700 dark:text-gray-200 text-center">
         {formatDate(endDate)}
       </td>
-      <td className="p-4 capitalize text-gray-700 dark:text-gray-200">
+      <td className="p-4 capitalize text-gray-700 dark:text-gray-200 text-center">
         {type}
       </td>
       <td
-        className={`p-4 font-medium ${
+        className={`p-4 font-medium text-center ${
           approved
             ? 'text-green-600 dark:text-green-400'
             : 'text-yellow-600 dark:text-yellow-400'
@@ -48,11 +50,8 @@ export const AbsenceRow: React.FC<AbsenceRowProps> = ({
       >
         {approved ? 'Approved' : 'Pending'}
       </td>
-      <td
-        className="p-4 text-red-600 dark:text-red-400 text-lg"
-        aria-label={hasConflict ? 'Conflict' : ''}
-      >
-        {hasConflict && <span title="Has conflict">⚠️</span>}
+      <td className="text-center align-middle">
+        <ConflictPill hasConflict={hasConflict} />
       </td>
     </tr>
   )
