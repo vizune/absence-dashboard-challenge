@@ -1,7 +1,12 @@
 {
+  "compilerOptions": {
+    "composite": true,
+    "types": ["vitest"]
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "include": ["src", "vite.config.ts", "**/*.test.ts", "**/*.test.tsx"],
 }

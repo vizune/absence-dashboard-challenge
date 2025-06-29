@@ -45,3 +45,49 @@ npm run dev
 
 # 3. Run tests
 npm run test
+```
+
+The app will be available at http://localhost:5173
+
+---
+
+## API Endpoints
+
+- `GET /api/absences`  
+  Returns a list of all employee absences.
+
+- `GET /api/conflict/:id`  
+  Returns whether a specific absence (by ID) has a scheduling conflict.
+
+See `src/constants.ts` for how these endpoints are used in the application.
+
+## 🧪 Testing
+
+This project uses [Vitest](https://vitest.dev/) as the test runner, along with [Testing Library](https://testing-library.com/) for DOM-based React testing.
+
+### ✨ Key testing features
+
+- `@testing-library/react` for rendering components
+- `@testing-library/user-event` for simulating real user interactions
+- `@testing-library/jest-dom` for useful assertions (e.g. `.toBeInTheDocument()`)
+- `jsdom` environment for full DOM support in tests
+
+### 📁 Setup
+
+All test setup is handled in:
+
+- `vite.config.ts` — configures Vitest with `globals`, `jsdom`, and `setupFiles`
+- `src/test/setup.ts` — imports `@testing-library/jest-dom` globally
+
+### 🚀 Running tests
+
+```bash
+# Run all tests once
+npm run test
+
+# Watch tests as you edit
+npm run test:watch
+
+# Open interactive UI (optional)
+npm run test:ui
+```
